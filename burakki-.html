@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"/>
+  <script src="blockly_compressed.js"></script>
+  <script src="blocks_compressed.js"></script>
+  <script src="javascript_compressed.js"></script>
+  <script src="python_compressed.js"></script>
+  <script src="ja.js"></script>
+  <link rel="website icon" type="png" href="../../../py app/static/images/web.png">
+  <title>おけんプログラム by google Blockly</title>
+   <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        font-family: Arial, sans-serif;
+    }
+    #content {
+        display: flex;
+        flex-grow: 1;
+    }
+    #blocklyDiv {
+        flex-grow: 1;
+        height: 100vh;
+    }
+    #sidebar {
+        width: 300px;
+        background: #f5f5f5;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+    button, select {
+        margin: 5px 0;
+        padding: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background: #34A853;
+        color: white;
+        border-radius: 5px;
+    }
+    button:hover, select:hover {
+        background: #2c8c44;
+    }
+    #output {
+        flex-grow: 1;
+        height: 200px;
+        background: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        overflow: auto;
+        font-size: 14px;
+        font-family: monospace;
+    }
+    .blocklyTrash {
+        position: fixed !important;
+        bottom: 10px;
+        right: 10px;
+        z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <div id="sidebar">
+        <select id="languageSelect" onchange="generateCode()">
+            <option value="JavaScript">JavaScript</option>
+            <option value="Python">Python</option>
+        </select>
+        <button onclick="executeCode()">実行</button>
+        <pre id="output">// JavaScriptコード</pre>
+    </div>
+    <div id="blocklyDiv"></div>
+  </div>
+  <xml id="toolbox" style="display: none">
+    <category name="制御" colour="120">
+      <block type="controls_repeat_ext"></block>
+      <block type="controls_whileUntil"></block>
+      <block type="controls_for"></block>
+      <block type="controls_flow_statements"></block>
+    </category>
+    <category name="論理" colour="210">
+      <block type="controls_if"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null"></block>
+      <block type="logic_ternary"></block>
+    </category>
+    <category name="数学" colour="230">
+      <block type="math_number"></block>
+      <block type="math_arithmetic"></block>
+      <block type="math_single"></block>
+      <block type="math_trig"></block>
+      <block type="math_constant"></block>
+      <block type="math_number_property"></block>
+      <block type="math_round"></block>
+      <block type="math_on_list"></block>
+      <block type="math_modulo"></block>
+      <block type="math_constrain"></block>
+      <block type="math_random_int"></block>
+      <block type="math_random_float"></block>
+    </category>
+    <category name="テキスト" colour="160">
+      <block type="text"></block>
+      <block type="text_join"></block>
+      <block type="text_append"></block>
+      <block type="text_length"></block>
+      <block type="text_isEmpty"></block>
+      <block type="text_indexOf"></block>
+      <block type="text_charAt"></block>
+      <block type="text_getSubstring"></block>
+      <block type="text_changeCase"></block>
+      <block type="text_trim"></block>
+      <block type="text_print"></block>
+    </category>
+    <category name="変数" custom="VARIABLE" colour="330"></category>
+    <category name="関数" custom="PROCEDURE" colour="290"></category>
+  </xml>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var workspace = Blockly.inject('blocklyDiv', {
+            toolbox: document.getElementById('toolbox'),
+            scrollbars: true,
+            trashcan: true
+        });
+        
+        workspace.addChangeListener(() => {
+            generateCode();
+        });
+    });
+    
+    function generateCode() {
+        let language = document.getElementById('languageSelect').value;
+        let code;
+        if (language === 'Python') {
+            code = Blockly.Python.workspaceToCode(Blockly.getMainWorkspace());
+        } else {
+            code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+        }
+        document.getElementById('output').textContent = `// ${language}コード\n` + code;
+    }
+
+    function executeCode() {
+
+            try {
+                code = Blockly.JavaScript.workspaceToCode(Blockly.getMainWorkspace());
+                eval(code);
+            } catch (e) {
+                console.error(e);
+                alert("エラーが発生しました: " + e.message);
+            }
+    }
+  </script>
+</body>
+</html>
+
