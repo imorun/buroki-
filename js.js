@@ -4,7 +4,7 @@
             scrollbars: true,
             trashcan: true
         });
-        
+        workspace.createVariable('variable');
         workspace.addChangeListener(() => {
             generateCode();
         });
@@ -30,4 +30,4 @@
                 console.error(e);
                 alert("エラーが発生しました: " + e.message);
             }
-    }
+        }
