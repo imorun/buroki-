@@ -5,6 +5,9 @@
             trashcan: true
         });
         workspace.createVariable('variable');
+            if( /^Mozilla/5.0 ((iPhone;|iPad;|iPod;|Linux; U; Android|Linux; Android)/i.test(navigator.userAgent) ) {
+                window.alert('pc推奨です');
+            }
         workspace.addChangeListener(() => {
             generateCode();
         });
