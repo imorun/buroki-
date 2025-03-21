@@ -22,11 +22,12 @@ function generateCode() {
 
     if (language === 'Python') {
         code = Blockly.Python.workspaceToCode(workspace);
+        document.getElementById('output').textContent = `# ${language}コード\n` + code;
     } else {
         code = Blockly.JavaScript.workspaceToCode(workspace);
+        document.getElementById('output').textContent = `// ${language}コード\n` + code;
     }
 
-    document.getElementById('output').textContent = `// ${language}コード\n` + code;
 }
 
 function executeCode() {
